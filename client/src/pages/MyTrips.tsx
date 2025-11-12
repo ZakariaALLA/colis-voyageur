@@ -192,9 +192,11 @@ export default function MyTrips() {
                 </CardContent>
 
                 <CardFooter className="flex gap-2">
-                  <Button className="flex-1" variant="outline" data-testid={`button-details-${trip.id}`}>
-                    Voir détails
-                  </Button>
+                  <Link href={`/trip/${trip.id}`} className="flex-1">
+                    <Button className="w-full" variant="outline" data-testid={`button-details-${trip.id}`}>
+                      Voir détails
+                    </Button>
+                  </Link>
                   {trip.status === 'pending' && (
                     <Button className="flex-1" data-testid={`button-confirm-${trip.id}`}>
                       Confirmer
@@ -249,9 +251,11 @@ export default function MyTrips() {
                 </CardHeader>
 
                 <CardFooter className="flex gap-2">
-                  <Button className="flex-1" variant="outline" data-testid={`button-details-past-${trip.id}`}>
-                    Voir détails
-                  </Button>
+                  <Link href={`/trip/${trip.id}`} className="flex-1">
+                    <Button className="w-full" variant="outline" data-testid={`button-details-past-${trip.id}`}>
+                      Voir détails
+                    </Button>
+                  </Link>
                   {trip.status === 'completed' && !trip.rating && (
                     <Link href="/rate" className="flex-1">
                       <Button className="w-full" data-testid={`button-rate-${trip.id}`}>

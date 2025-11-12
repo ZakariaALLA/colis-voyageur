@@ -15,6 +15,8 @@ import UserProfile from "@/components/UserProfile";
 import AuthPage from "@/components/AuthPage";
 import RegisterForm from "@/components/RegisterForm";
 import MyTrips from "@/pages/MyTrips";
+import TripDetail from "@/pages/TripDetail";
+import Messages from "@/pages/Messages";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -29,6 +31,8 @@ function Router() {
       <Route path="/auth" component={AuthPage} />
       <Route path="/register" component={RegisterForm} />
       <Route path="/my-trips" component={MyTrips} />
+      <Route path="/trip/:id" component={TripDetail} />
+      <Route path="/messages/:userId?" component={Messages} />
       <Route component={NotFound} />
     </Switch>
   );
