@@ -12,6 +12,8 @@ import PackageRequestForm from "@/components/PackageRequestForm";
 import RatingReview from "@/components/RatingReview";
 import UserProfile from "@/components/UserProfile";
 import AuthPage from "@/components/AuthPage";
+import RegisterForm from "@/components/RegisterForm";
+import MyTrips from "@/pages/MyTrips";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -24,12 +26,8 @@ function Router() {
       <Route path="/rate" component={RatingReview} />
       <Route path="/profile" component={UserProfile} />
       <Route path="/auth" component={AuthPage} />
-      <Route path="/my-trips">
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8">Mes trajets</h1>
-          <p className="text-muted-foreground">À venir...</p>
-        </div>
-      </Route>
+      <Route path="/register" component={RegisterForm} />
+      <Route path="/my-trips" component={MyTrips} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -140,15 +140,26 @@ export default function AuthPage() {
               {t.auth.submit}
             </Button>
 
-            <Button
-              type="button"
-              variant="ghost"
-              className="w-full"
-              onClick={() => setIsLogin(!isLogin)}
-              data-testid="button-toggle-auth"
-            >
-              {isLogin ? t.auth.switchToRegister : t.auth.switchToLogin}
-            </Button>
+            <div className="text-center text-sm">
+              <span className="text-muted-foreground">
+                {isLogin ? "Pas encore membre ? " : "Déjà membre ? "}
+              </span>
+              <Button
+                type="button"
+                variant="ghost"
+                className="p-0 h-auto text-primary"
+                onClick={() => {
+                  if (isLogin) {
+                    window.location.href = '/register';
+                  } else {
+                    setIsLogin(true);
+                  }
+                }}
+                data-testid="button-toggle-auth"
+              >
+                {isLogin ? "S'inscrire" : "Se connecter"}
+              </Button>
+            </div>
           </form>
         </CardContent>
       </Card>
