@@ -7,13 +7,17 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { Package, ArrowRight, ArrowLeft, User, Mail, Lock, Phone, Car, MapPin } from 'lucide-react';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 
 export default function RegisterForm() {
   const { t } = useLanguage();
+  const { register } = useAuth();
+  const [, setLocation] = useLocation();
   const [step, setStep] = useState(1);
   const [userType, setUserType] = useState<'sender' | 'transporter'>('sender');
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -35,9 +39,26 @@ export default function RegisterForm() {
     if (step > 1) setStep(step - 1);
   };
 
-  const handleSubmit = () => {
-    console.log('Registration submitted:', { userType, formData });
-    alert('Inscription réussie! Bienvenue sur ColisVoyageur.');
+  const handleSubmit = async () => {
+    if (formData.password !== formData.confirmPassword) {
+      alert('Les mots de passe ne correspondent pas');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await register({
+        ...formData,
+        userType,
+      });
+      alert('Inscription réussie! Bienvenue sur ColisVoyageur.');
+      setLocation('/');
+    } catch (error) {
+      console.error('Registration error:', error);
+      alert('Erreur lors de l\'inscription');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const updateField = (field: string, value: string) => {
@@ -336,8 +357,8 @@ export default function RegisterForm() {
                 <ArrowRight className="h-4 w-4 ml-2" />
               </Button>
             ) : (
-              <Button onClick={handleSubmit} data-testid="button-submit" className="min-w-[140px]">
-                S'inscrire
+              <Button onClick={handleSubmit} data-testid="button-submit" className="min-w-[140px]" disabled={isLoading}>
+                {isLoading ? 'Chargement...' : "S'inscrire"}
               </Button>
             )}
           </div>

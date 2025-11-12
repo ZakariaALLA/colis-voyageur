@@ -5,12 +5,17 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { Package } from 'lucide-react';
+import { useLocation } from 'wouter';
 
 export default function AuthPage() {
   const { t } = useLanguage();
+  const { login } = useAuth();
+  const [, setLocation] = useLocation();
   const [isLogin, setIsLogin] = useState(true);
   const [userType, setUserType] = useState('sender');
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -20,10 +25,24 @@ export default function AuthPage() {
     vehicleType: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', { isLogin, userType, formData });
-    alert(isLogin ? 'Connexion réussie!' : 'Inscription réussie!');
+    setIsLoading(true);
+    
+    try {
+      if (isLogin) {
+        await login(formData.email, formData.password);
+        setLocation('/');
+      } else {
+        alert('Utilisez le formulaire d\'inscription complet');
+        setLocation('/register');
+      }
+    } catch (error) {
+      console.error('Auth error:', error);
+      alert('Erreur lors de la connexion');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const updateField = (field: string, value: string) => {
@@ -136,8 +155,8 @@ export default function AuthPage() {
               </div>
             )}
 
-            <Button type="submit" className="w-full" size="lg" data-testid="button-submit">
-              {t.auth.submit}
+            <Button type="submit" className="w-full" size="lg" data-testid="button-submit" disabled={isLoading}>
+              {isLoading ? 'Chargement...' : t.auth.submit}
             </Button>
 
             <div className="text-center text-sm">
