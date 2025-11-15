@@ -32,7 +32,7 @@ var vite_config_default = defineConfig({
       )
     ] : []
   ],
-  base: "/",
+  base: "/colis-voyageur/",
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
