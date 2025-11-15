@@ -96,9 +96,11 @@ export default function Header() {
                       Mes trajets
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Settings className="h-4 w-4 mr-2" />
-                    Paramètres
+                  <DropdownMenuItem asChild>
+                    <Link href="/my-trips" className="cursor-pointer">
+                      <Settings className="h-4 w-4 mr-2" />
+                      Paramètres
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
